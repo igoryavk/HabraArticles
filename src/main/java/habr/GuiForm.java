@@ -2,6 +2,8 @@ package habr;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class GuiForm {
     private JPanel center;
@@ -24,7 +26,7 @@ public class GuiForm {
 
         //Laying out components on panels
         parser=new Parser("https://habr.com/ru/");
-        parser.parseUrlList();
+        submitBtn.addMouseListener(new MouseClicker());
         center.add(listView);
         east.add(submitBtn);
         mainPanel.setLayout(new BorderLayout());
@@ -35,5 +37,13 @@ public class GuiForm {
         form.setSize(new Dimension(350,250));
         form.add(mainPanel);
         form.setVisible(true);
+    }
+    class MouseClicker extends MouseAdapter
+    {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            super.mouseClicked(e);
+            listView.setListData(parser.parseArticleTitles().toArray());
+        }
     }
 }
